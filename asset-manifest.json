@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Boss_Scheduler/static/css/main.4cd5e091.css",
+    "main.js": "/Boss_Scheduler/static/js/main.4984a043.js",
+    "static/js/787.e9d2a0de.chunk.js": "/Boss_Scheduler/static/js/787.e9d2a0de.chunk.js",
+    "index.html": "/Boss_Scheduler/index.html",
+    "main.4cd5e091.css.map": "/Boss_Scheduler/static/css/main.4cd5e091.css.map",
+    "main.4984a043.js.map": "/Boss_Scheduler/static/js/main.4984a043.js.map",
+    "787.e9d2a0de.chunk.js.map": "/Boss_Scheduler/static/js/787.e9d2a0de.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4cd5e091.css",
+    "static/js/main.4984a043.js"
+  ]
+}
