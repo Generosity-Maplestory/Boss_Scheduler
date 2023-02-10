@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import CalendarComponent from "./components/CalendarComponent";
 import UserSelector from './components/UserSelector';
+import './App.css';
 function App() {
   const [currentUser, setCurrentUser ] = useState("");
 
