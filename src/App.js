@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React, { useEffect, useState } from 'react';
+import CalendarComponent from "./components/CalendarComponent";
+import UserSelector from './components/UserSelector';
 function App() {
+  const [currentUser, setCurrentUser ] = useState("");
+
+  useEffect(()=>{
+    console.log("currentUser: ", currentUser);
+  },[])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {
+        currentUser && currentUser.length
+        ?
+        <UserSelector
+          currentUser={currentUser}
+          setCurrentUser={setCurrentUser}
+        />
+        :
+        <CalendarComponent/>
+
+      }
+    </>
+
   );
 }
 
 export default App;
+
+// npm start - runs server 
+//ctrl c - terminated batch job
+// npm run deploy - uploads the site
