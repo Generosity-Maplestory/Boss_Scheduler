@@ -1,27 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import CalendarComponent from "./components/CalendarComponent";
-import UserSelector from './components/UserSelector';
+import CalendarComponent from "./pages/CalendarComponent";
+import UserSelector from './pages/UserSelector';
+import NoPage from './pages/NoPage';
+import { BrowserRouter, Routes, Route  } from "react-router-dom";
 import './App.css';
 function App() {
-  const [currentUser, setCurrentUser ] = useState("");
+  const [currentUser, setCurrentUser ] = useState(localStorage.getItem("currentUser"));
 
-  useEffect(()=>{
-    console.log("currentUser: ", currentUser);
-  },[])
   return (
-    <>
-      {
-        currentUser && currentUser.length
-        ?
-        <UserSelector
-          currentUser={currentUser}
-          setCurrentUser={setCurrentUser}
-        />
-        :
-        <CalendarComponent/>
-
-      }
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<CalendarComponent currentUser={currentUser}/>}/>
+        <Route path="/userselect" element={<UserSelector currentUser={currentUser} setCurrentUser={setCurrentUser}/>}/>
+        <Route path="*" element ={<NoPage/>}/>
+      </Routes>
+    </BrowserRouter>
 
   );
 }
