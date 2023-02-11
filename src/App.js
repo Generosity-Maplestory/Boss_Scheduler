@@ -7,7 +7,6 @@ import './App.css';
 function App() {
   const [currentUser, setCurrentUser ] = useState(localStorage.getItem("currentUser"));
 
-  console.log("current location: ", window.location);
   return (
     <BrowserRouter>
       <Routes>

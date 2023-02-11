@@ -14,14 +14,7 @@ import OptionsDD from '../components/OptionsDD';
 const localizer = momentLocalizer(moment);
 const DnDCalendar = withDragAndDrop(Calendar);
 
-const events = [
-    {
-      id: 1,
-      start: moment().toDate(),
-      end: moment().add(1, "hours").toDate(),
-      title: "Some title",
-    },
-  ];
+
   
 const views = {
   week: true
@@ -29,10 +22,23 @@ const views = {
 export default function CalendarComponent({
   currentUser
 }){
+    const events = [
+      {
+        id: 1,
+        start: moment().toDate(),
+        end: moment().add(1, "hours").toDate(),
+        title: "Some title",
+        user: currentUser
+      },
+    ];
     const [myEvents, setEvents] = useState(events);
     const [color, setColor ] = useState("#265985");
     const navigate = useNavigate();
 
+
+    React.useEffect(()=>{
+      console.log("myEvents: ", myEvents);
+    },[myEvents])
     React.useEffect(()=>{
       console.log("currentUser: ", currentUser);
       if(!currentUser || !currentUser.length){
@@ -64,9 +70,6 @@ export default function CalendarComponent({
           const existing = prev.find((ev) => ev.id === event.id) ?? {}
 
           const filtered = prev.filter((ev) => ev.id !== event.id)
-          console.log("existing: ", existing);
-          console.log("filtered: ", filtered);
-
 
           return [...filtered, { ...existing, start, end }]
         })
@@ -78,7 +81,7 @@ export default function CalendarComponent({
         setEvents((prev) => {
           const idList = prev.map((item) => item.id)
           const newId = Math.max(...idList) + 1
-          return [...prev, { ...event, id: newId }]
+          return [...prev, { ...event, id: newId, user: currentUser }]
         })
       },
       [setEvents]

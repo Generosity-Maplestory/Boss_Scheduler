@@ -1,13 +1,12 @@
 import { React, Fragment, useState, useEffect } from 'react';
-import { Menu, Transition } from '@headlessui/react'
-import { ChromePicker } from 'react-color'
+import { Menu, Transition } from '@headlessui/react';
+import { ChromePicker } from 'react-color';
+import { useNavigate  } from "react-router-dom";
 export default function OptionsDD({
   color,
   handleColorChange
 }) {
-  useEffect(()=>{
-    console.log("color: ", color);
-  },[color, handleColorChange])
+  const navigate = useNavigate();
 
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -29,12 +28,12 @@ export default function OptionsDD({
         <Menu.Items className="absolute right-0 z-10 mt-2 w-max origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
             <Menu.Item>
-                <a
-                  href="/Boss_Scheduler/userselect"
-                  className='block px-2 py-1 text-sm hover:bg-gray-50'
+                <div
+                  className='block px-2 py-1 text-sm hover:bg-gray-50 cursor-pointer'
+                  onClick={()=>navigate("/Boss_Scheduler/userselect")}
                 >
                   Change Name
-                </a>
+                </div>
             </Menu.Item>
 
           </div>

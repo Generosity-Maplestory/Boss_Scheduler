@@ -10,7 +10,6 @@ export default function UserSelector({
 
     const [invalid, setInvalid ] = React.useState(false);
     function handleChange(event){
-        console.log("event: ", event.target.value);
         setValue(event.target.value);
     }
     function handleUserSet(val){
