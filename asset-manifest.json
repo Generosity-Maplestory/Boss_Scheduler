@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/Boss_Scheduler/static/css/main.76bddeca.css",
-    "main.js": "/Boss_Scheduler/static/js/main.132734d4.js",
+    "main.js": "/Boss_Scheduler/static/js/main.9f2b5b6d.js",
     "static/js/787.e9d2a0de.chunk.js": "/Boss_Scheduler/static/js/787.e9d2a0de.chunk.js",
     "static/media/generosity_logo.png": "/Boss_Scheduler/static/media/generosity_logo.16d02f91108ac1515543.png",
     "index.html": "/Boss_Scheduler/index.html",
     "main.76bddeca.css.map": "/Boss_Scheduler/static/css/main.76bddeca.css.map",
-    "main.132734d4.js.map": "/Boss_Scheduler/static/js/main.132734d4.js.map",
+    "main.9f2b5b6d.js.map": "/Boss_Scheduler/static/js/main.9f2b5b6d.js.map",
     "787.e9d2a0de.chunk.js.map": "/Boss_Scheduler/static/js/787.e9d2a0de.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.76bddeca.css",
-    "static/js/main.132734d4.js"
+    "static/js/main.9f2b5b6d.js"
   ]
 }
