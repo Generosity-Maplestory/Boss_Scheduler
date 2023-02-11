@@ -36,7 +36,7 @@ export default function CalendarComponent({
     React.useEffect(()=>{
       console.log("currentUser: ", currentUser);
       if(!currentUser || !currentUser.length){
-        navigate("/userselect");
+        navigate("/Boss_Scheduler/userselect");
       }
     },[currentUser])
 

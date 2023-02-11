@@ -21,7 +21,7 @@ export default function UserSelector({
 
         setCurrentUser(val);
         localStorage.setItem("currentUser", val);
-        navigate("/");
+        navigate("/Boss_Scheduler");
     }
 
     function onKeyPress(event){
