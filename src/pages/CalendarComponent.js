@@ -1,10 +1,10 @@
-import React, { useCallback, useState, useMemo, Fragment, useEffect, useRef } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import ReactDOM from "react-dom";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import { useNavigate  } from "react-router-dom";
-import { Overlay, Tooltip, Button, Row, Col } from "react-bootstrap";
+import { Overlay, Tooltip } from "react-bootstrap";
 
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -24,24 +24,31 @@ const views = {
 export default function CalendarComponent({
   currentUser
 }){
-    const events = [
-      {
-        id: 1,
-        start: moment().toDate(),
-        end: moment().add(1, "hours").toDate(),
-        title: currentUser,
-        user: currentUser
-      },
-    ];
-    console.log("localStorage events: ", JSON.parse(localStorage.getItem("events")));
-    const [myEvents, setEvents] = useState(events);
+
+    const [myEvents, setEvents] = useState([]);
     const [color, setColor ] = useState("#265985");
     const navigate = useNavigate();
 
+    React.useEffect(()=>{
+      const localstorage_events = JSON.parse(localStorage.getItem('events'));
+      console.log("localstorage_events: ", localstorage_events);
+
+      if(localstorage_events){
+        //convert incorrect timestamps to moment
+        localstorage_events.forEach(event=>{
+          event.end = moment(event.end, moment.ISO_8601).format();
+          event.start = moment(event.start, moment.ISO_8601).format();
+        });
+
+        console.log("localStorage Event after for: ", localstorage_events);
+
+        // setEvents(localstorage_events);
+      }
+    },[])
 
     React.useEffect(()=>{
       console.log("myEvents: ", myEvents);
-      localStorage.setItem("events", JSON.stringify(myEvents));
+      // localStorage.setItem("events", JSON.stringify(myEvents));
     },[myEvents])
 
 
@@ -84,11 +91,16 @@ export default function CalendarComponent({
     )
     const handleSelectSlot = useCallback(
       (event) => {
+        console.log("clicked new event: ", event);
+        console.log("typeof end: ", typeof event.start);
         //if user selects somewhere in the calendar (not top area) or clicks and drags
         if(event.box ||event.bounds){
           setEvents((prev) => {
-            const idList = prev.map((item) => item.id)
-            const newId = Math.max(...idList) + 1
+            const idList = prev.map((item) => item.id);
+            let newId = 1;
+            if(idList.length){
+              newId = Math.max(...idList) + 1;
+            }
             return [...prev, { 
               ...event, 
               id: newId, 
@@ -102,9 +114,12 @@ export default function CalendarComponent({
       [setEvents]
     )
     const handleSelectEvent = useCallback(
-      (event) => console.log("clicked event: ", event),
+      (event) => {
+        // console.log("clicked event: ", event)
+      },
       []
     )
+
 
     const eventPropGetter = useCallback(
       (event, start, end, isSelected) => ({
@@ -116,49 +131,19 @@ export default function CalendarComponent({
       (event) => {
         const remove_confirm = window.confirm("Would you like to remove this event?");
         if(remove_confirm === true){
-          console.log("you removed: ", event);
           setEvents((prev) => {
             const events = [...prev];
             const index = events.indexOf(event.event);
             events.splice(index,1);
-            return {events};
+            return events;
           })
-
-          console.log("after removing: ", myEvents);
         }
       },
-      []
-    )
+      [setEvents]
+    );
 
-    // function removeEvent(event){
-    //   const remove_confirm = window.confirm("Would you like to remove this event?")
-    //   if(remove_confirm === true){
-    //     console.log("you removed: ", event);
-    //     this.setState((prevState, props) => {
-    //       const events = [...prevState.events]
-    //       const idx = events.indexOf(pEvent)
-    //       events.splice(idx, 1);
-    //       return { events };
-    //     });
-    //   }
-    // }
-
-    // onSelectEvent(pEvent) {
-    //   const r = window.confirm("Would you like to remove this event?")
-    //   if(r === true){
-        
-    //     this.setState((prevState, props) => {
-    //       const events = [...prevState.events]
-    //       const idx = events.indexOf(pEvent)
-    //       events.splice(idx, 1);
-    //       return { events };
-    //     });
-    //   }
-    // }
 
     const TooltipContent = ({onClose, event}) => {
-      console.log("event: ", event);
-      console.log("start date: ", moment(event.event.start).format("h:mma"));
       const start_time = moment(event.event.start).format("h:mma");
       const end_time = moment(event.event.end).format("h:mma")
       return (
@@ -194,7 +179,7 @@ export default function CalendarComponent({
       return (
         <div 
           className="event-container h-full" 
-          // onMouseLeave={closeTooltip}
+          onMouseLeave={closeTooltip}
           ref={ref}
           onMouseOver={openTooltip}
         >
@@ -209,7 +194,7 @@ export default function CalendarComponent({
           >
             <Tooltip 
               id="event-tooltip"
-              // onMouseLeave={closeTooltip}
+              onMouseLeave={closeTooltip}
             >
               <TooltipContent event={event} onClose={closeTooltip}/>
             </Tooltip>
