@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/Boss_Scheduler/static/css/main.b053d219.css",
-    "main.js": "/Boss_Scheduler/static/js/main.328affe1.js",
+    "main.css": "/Boss_Scheduler/static/css/main.f696fd94.css",
+    "main.js": "/Boss_Scheduler/static/js/main.81a6573b.js",
     "static/js/787.e9d2a0de.chunk.js": "/Boss_Scheduler/static/js/787.e9d2a0de.chunk.js",
     "static/media/generosity_logo.png": "/Boss_Scheduler/static/media/generosity_logo.16d02f91108ac1515543.png",
     "index.html": "/Boss_Scheduler/index.html",
-    "main.b053d219.css.map": "/Boss_Scheduler/static/css/main.b053d219.css.map",
-    "main.328affe1.js.map": "/Boss_Scheduler/static/js/main.328affe1.js.map",
+    "main.f696fd94.css.map": "/Boss_Scheduler/static/css/main.f696fd94.css.map",
+    "main.81a6573b.js.map": "/Boss_Scheduler/static/js/main.81a6573b.js.map",
     "787.e9d2a0de.chunk.js.map": "/Boss_Scheduler/static/js/787.e9d2a0de.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.b053d219.css",
-    "static/js/main.328affe1.js"
+    "static/css/main.f696fd94.css",
+    "static/js/main.81a6573b.js"
   ]
 }
