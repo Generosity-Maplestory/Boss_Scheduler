@@ -1,6 +1,6 @@
-import React, { useCallback, useState, useRef } from 'react';
+import React, { useCallback, useState, useRef, useMemo } from 'react';
 import ReactDOM from "react-dom";
-import { Calendar, momentLocalizer } from "react-big-calendar";
+import { Calendar, momentLocalizer, Views } from "react-big-calendar";
 import moment from "moment";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import { useNavigate  } from "react-router-dom";
@@ -18,9 +18,7 @@ const DnDCalendar = withDragAndDrop(Calendar);
 
 
   
-const views = {
-  week: true
-}
+
 export default function CalendarComponent({
   currentUser
 }){
@@ -29,26 +27,30 @@ export default function CalendarComponent({
     const [color, setColor ] = useState("#265985");
     const navigate = useNavigate();
 
+    //on initial load, get events from localStorage if it exists, and parse the date
     React.useEffect(()=>{
       const localstorage_events = JSON.parse(localStorage.getItem('events'));
-      console.log("localstorage_events: ", localstorage_events);
 
       if(localstorage_events){
         //convert incorrect timestamps to moment
         localstorage_events.forEach(event=>{
-          event.end = moment(event.end, moment.ISO_8601).format();
-          event.start = moment(event.start, moment.ISO_8601).format();
+          event.end = moment(event.end, moment.ISO_8601).toDate();
+          event.start = moment(event.start, moment.ISO_8601).toDate();
         });
 
-        console.log("localStorage Event after for: ", localstorage_events);
-
-        // setEvents(localstorage_events);
+        setEvents(localstorage_events);
       }
     },[])
 
     React.useEffect(()=>{
-      console.log("myEvents: ", myEvents);
-      // localStorage.setItem("events", JSON.stringify(myEvents));
+      const localstorage_color = localStorage.getItem('color');
+      if(localstorage_color){
+        setColor(localstorage_color);
+      }
+    },[])
+    //everytime event is changed, update it in localStorage
+    React.useEffect(()=>{
+      localStorage.setItem("events", JSON.stringify(myEvents));
     },[myEvents])
 
 
@@ -91,8 +93,6 @@ export default function CalendarComponent({
     )
     const handleSelectSlot = useCallback(
       (event) => {
-        console.log("clicked new event: ", event);
-        console.log("typeof end: ", typeof event.start);
         //if user selects somewhere in the calendar (not top area) or clicks and drags
         if(event.box ||event.bounds){
           setEvents((prev) => {
@@ -141,6 +141,7 @@ export default function CalendarComponent({
       },
       [setEvents]
     );
+
 
 
     const TooltipContent = ({onClose, event}) => {
@@ -202,6 +203,29 @@ export default function CalendarComponent({
         </div>
       );
     }
+
+    
+    // const views = {
+    //   week: true
+    // }
+
+
+    const { defaultDate, views, resourceMap } = useMemo(
+      () => ({
+        defaultDate: moment().toDate(),
+        views: ['day', 'work_week'],
+        resourceMap: [
+          { resourceId: 1, resourceTitle: 'Monday' },
+          { resourceId: 2, resourceTitle: 'Tuesday' },
+          { resourceId: 3, resourceTitle: 'Wednesday' },
+          { resourceId: 4, resourceTitle: 'Thursday' },
+          { resourceId: 5, resourceTitle: 'Friday' },
+          { resourceId: 6, resourceTitle: 'Saturady' },
+          { resourceId: 7, resourceTitle: 'Sunday' },
+        ]
+      }),
+      []
+    )
     return(
         <div className="wrapper">
             <div className="flex justify-between items-center p-2">
@@ -217,8 +241,8 @@ export default function CalendarComponent({
             <DnDCalendar
               tooltipAccessor={null}
               components={{ event: EventComponent }}
-              defaultDate={moment().toDate()}
-              defaultView="week"
+              defaultDate={defaultDate}
+              defaultView={Views.DAY}
               scrollToTime={moment().toDate()}
               events={myEvents}
               localizer={localizer}
@@ -227,6 +251,9 @@ export default function CalendarComponent({
               onSelectEvent={handleSelectEvent}
               onSelectSlot={handleSelectSlot}
               eventPropGetter={eventPropGetter}
+              resourceIdAccessor="resourceId"
+              resources={resourceMap}
+              resourceTitleAccessor="resourceTitle"
               views={views}
               toolbar = {false}
               resizable
@@ -240,4 +267,4 @@ export default function CalendarComponent({
 
 
 //TODO
-//have to change it so instead of sunday - monday with the dates, it's wednesday to monday without any dates
+//a team needs to have at least 9000 culvert
